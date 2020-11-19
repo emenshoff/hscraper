@@ -1,0 +1,25 @@
+<td>
+                {% if hub.poll %}
+                <label >
+                    <input type="checkbox" name="options" id="option1" checked> Yes
+                </label>
+                {% else %}
+               <label >
+                    <input type="checkbox" name="options" id="option1" > No
+               </label>
+                {% endif %}
+            </td>
+            <td >
+                {% if hub.poll %}
+                    <input type="number" class="form-control" placeholder="0" min="1" max="1000">
+                {% else %}
+                    <span class="label label-default">Not tracked</span>
+                {% endif %}
+            </td>
+            <td >
+                {% if hub.poll %}
+                    <a href="#">Posts<span class="badge  badge-danger" style="background-color: red">12</span></a>
+                {% else %}
+                    <span class="label label-default">Not tracked</span>
+                {% endif %}
+            </td>

@@ -1,0 +1,68 @@
+{% extends 'habrscraper/base.html' %}
+
+{% block content %}
+{% csrf_token %}
+    <div style="width: auto; height: auto; margin-top:50; margin-bottom: auto; margin-right: 50px;margin-left: 50px;">
+    <form class="centered-form">
+
+    <h2>https://habr.com/ru/hubs/</h2>
+
+    <div>
+        <table class="table table table-bordered table-responsive">
+            <thead>
+            <tr>
+            <th scope="col">Hub id</th>
+            <th scope="col">Hub name</th>
+            <th scope="col">Description</th>
+            <th scope="col">url</th>
+            <th scope="col">Last poll (GMT)</th>
+            <th scope="col">Tracked</th>
+            <th scope="col">Pool interval</th>
+            <th scope="col">Action</th>
+            </tr>
+            </thead>
+
+        </th>
+        <tbody class="overflow-auto table-responsive">
+        {% for hub in object_list %}
+        <tr>
+            <th scope="row">{{ hub.id }}</th>
+            <td>{{ hub.name }}</td>
+            <td>{{ hub.description }}</td>
+            <td><a href="{{ hub.link }}">{{ hub.link }}</a></td>
+            <td>{{ hub.last_poll_date_time|date:'Y-m-d H:i'}}</td>
+            <td>
+                {% if hub.poll %}
+                <label >
+                    Yes
+                </label>
+                {% else %}
+               <label >
+                    No
+               </label>
+                {% endif %}
+            </td>
+            <td >
+                {% if hub.poll %}
+                    <span class="label label-success">{{ hub.poll_interval  }} sec</span>
+
+                {% else %}
+                    <span class="label label-default">Not tracked</span>
+                {% endif %}
+            </td>
+
+            <td>
+                <a type="button" class="btn btn-primary btn-sm" href="{% url 'hub_detail_url' pk=hub.pk %}">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+
+
+        </table>
+    </div>
+
+    </form>
+</div>
+
+{% endblock %}

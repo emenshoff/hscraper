@@ -1,0 +1,78 @@
+{% extends 'habrscraper/base.html' %}
+
+{% block content %}
+
+<div style="width: auto; height: auto; margin-top:50; margin-bottom: auto; margin-right: 50px;margin-left: 50px;">
+    <h2>{{ name  }}</h2>
+
+    <form method="POST" class="centered-form">
+        {% csrf_token %}
+        <dl class="row">
+            <dt class="col-sm-3">Hub id</dt>
+            <dd class="col-sm-9">{{ id }}</dd>
+            <dt class="col-sm-3">Description</dt>
+            <dd class="col-sm-9"> {{ description  }}</dd>
+            <dt class="col-sm-3">Url</dt>
+            <dd class="col-sm-9">{{ link  }}</dd>
+            <dt class="col-sm-3">Last poll time</dt>
+            <dd class="col-sm-9">{{ last_poll_date_time|date:'Y-m-d H:i'}}</dd>
+            <dt class="col-sm-3">Is tracked</dt>
+            <dd class="col-sm-9">
+                {% if poll %}
+                <label >
+                    <input type="checkbox" name="poll" id="poll" checked>
+                </label>
+                {% else %}
+               <label >
+                    <input type="checkbox" name="poll" id="poll" >
+               </label>
+                {% endif %}
+                </dd>
+                <dt class="col-sm-9">Poll interval, seconds</dt>
+                <dd class="col-sm-9">
+                    <input type="number" class="form-control" name="poll_interval" placeholder="{{ poll_interval  }}" value = "{{ poll_interval  }}"  min="1" max="50000">
+                </dd>
+            </dl>
+
+        <br>
+        <div style="float: center; margin-left:auto;" >
+            <a class="btn btn-secondary mb-2" href="{% url 'hub_list_url' %}"  role="button" >Cancel</a>
+            <button type="submit" class="btn btn-primary mb-2">Save settings</button>
+
+        </div>
+        <br>
+        <h3>New posts</h3>
+         <div>
+            <table class="table table table-bordered table-responsive">
+                <thead>
+                <tr>
+                <th scope="col">Post id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Date</th>
+                <th scope="col">Author</th>
+                <th scope="col">Author profile</th>
+                <th scope="col">Post link</th>
+                <th scope="col">Post text</th>
+                </tr>
+                </thead>
+
+            </th>
+            <tbody class="overflow-auto table-responsive">
+            {% for post in hub.posts %}
+            <tr>
+                <th scope="row">{{ post.id }}</th>
+                <td>{{ post.title }}</td>
+                <td>{{ post.date_time }}</td>
+                <td>{{ post.author_name }}</td>
+                <td><a href="{{ post.author_link }}">{{ post.author_link }}</a></td>
+                <td>{{ post.body }}</td>
+                <td>{{ post.link }}</td>
+
+            </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </form>
+</div>
+{% endblock %}
